@@ -254,8 +254,8 @@ public class TLMonthYearPickerView: UIControl, UIPickerViewDataSource, UIPickerV
         if self.monthYearPickerMode == .year {
             self._picker.selectRow(year - kMinimumYears, inComponent: 0, animated: animated)
         } else {
-            self._picker.selectRow(year - kMinimumYears, inComponent: 1, animated: animated)
-            self._picker.selectRow(month - 1, inComponent: 0, animated: animated)
+            self._picker.selectRow(year - kMinimumYears, inComponent: 0, animated: animated)
+            self._picker.selectRow(month - 1, inComponent: 1, animated: animated)
         }
     }
     
@@ -278,9 +278,9 @@ public class TLMonthYearPickerView: UIControl, UIPickerViewDataSource, UIPickerV
             return self._years.count
         } else {
             if component == 0 {
-                return self._months.count
-            } else {
                 return self._years.count
+            } else {
+                return self._months.count
             }
         }
     }
@@ -291,7 +291,7 @@ public class TLMonthYearPickerView: UIControl, UIPickerViewDataSource, UIPickerV
     ///   - component
     /// - Returns: display string of specific row in specific component
     public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let isSelectYear = self.monthYearPickerMode == .year || component == 1
+        let isSelectYear = self.monthYearPickerMode == .year || component == 0
         var shouldDisable = false
         
         if isSelectYear {
@@ -318,9 +318,9 @@ public class TLMonthYearPickerView: UIControl, UIPickerViewDataSource, UIPickerV
             text = self._years[row]
         } else {
             if component == 0 {
-                text = self._months[row]
-            } else {
                 text = self._years[row]
+            } else {
+                text = self._months[row]
             }
         }
         
@@ -358,7 +358,7 @@ public class TLMonthYearPickerView: UIControl, UIPickerViewDataSource, UIPickerV
             self.delegate?.monthYearPickerView(picker: self, didSelectDate: targetDate)
             
             if self.monthYearPickerMode == .monthAndYear {
-                self._picker.reloadComponent(0)
+                self._picker.reloadComponent(1)
             }
         }
     }
@@ -390,8 +390,8 @@ public class TLMonthYearPickerView: UIControl, UIPickerViewDataSource, UIPickerV
         if self.monthYearPickerMode == .year {
             year = self._picker.selectedRow(inComponent: 0) + kMinimumYears
         } else {
-            month = self._picker.selectedRow(inComponent: 0) + 1
-            year = self._picker.selectedRow(inComponent: 1) + kMinimumYears
+            month = self._picker.selectedRow(inComponent: 1) + 1
+            year = self._picker.selectedRow(inComponent: 0) + kMinimumYears
         }
         
         var components = DateComponents()
